@@ -1,0 +1,141 @@
+package com.security.zarpay.ui.screen
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBarDefaults.colors
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.security.zarpay.model.ProfileMenuItem
+import com.security.zarpay.model.ProfileStat
+import com.security.zarpay.ui.components.BottomNavBar
+import com.security.zarpay.ui.components.ProfileHeaderCard
+import com.security.zarpay.ui.components.ProfileMenuItemRow
+import com.security.zarpay.ui.components.ProfileStatsRow
+import com.security.zarpay.ui.theme.LocalZarPayColors
+import com.security.zarpay.ui.theme.ZarPayTheme
+import com.security.zarpay.ui.components.Icons as BottomNavBar
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.SupportAgent
+
+private val ScreenBg = Color(0xFF0B0E1A)
+
+@Composable
+fun ProfileScreen(
+    userName: String = "Fariyal Fatima",
+    onNavigate: (String) -> Unit = {}
+) {
+
+    val colors = LocalZarPayColors.current
+    val stats = remember {
+        listOf(
+            ProfileStat(value = "\u20B99.5K", label = "Sent this month"),
+            ProfileStat(value = "24", label = "Transactions")
+        )
+    }
+
+    val menuItems = remember {
+        listOf(
+            ProfileMenuItem(
+                icon = Icons.Filled.AccountBalance,
+                iconBgColor = Color(0xFF1A2E22),
+                iconTint = Color(0xFF3DDC97),
+                label = "Linked bank accounts",
+                badge = "1 active",
+                badgeColor = Color(0xFF1E5C4A)
+            ),
+            ProfileMenuItem(
+                icon = Icons.Filled.Shield,
+                iconBgColor = Color(0xFF1E1A33),
+                iconTint = Color(0xFF7C6CF0),
+                label = "Privacy & security",
+                badge = "New",
+                badgeColor = Color(0xFF4A3F8C)
+            ),
+            ProfileMenuItem(
+                icon = Icons.Filled.PhoneAndroid,
+                iconBgColor = Color(0xFF33291A),
+                iconTint = Color(0xFFF5A623),
+                label = "Trusted devices"
+            ),
+            ProfileMenuItem(
+                icon = Icons.Filled.Translate,
+                iconBgColor = Color(0xFF3A1A2E),
+                iconTint = Color(0xFFE8637A),
+                label = "Language — Hindi, English"
+            ),
+            ProfileMenuItem(
+                icon = Icons.Filled.Description,
+                iconBgColor = Color(0xFF1A2E22),
+                iconTint = Color(0xFF3DDC97),
+                label = "Download all statements"
+            ),
+            ProfileMenuItem(
+                icon = Icons.Filled.SupportAgent,
+                iconBgColor = Color(0xFF1E1A33),
+                iconTint = Color(0xFF7C6CF0),
+                label = "Support — 24/7 Live chat"
+            )
+
+        )
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.background)
+    ) {
+        Text(
+            text = "Profile",
+            color = Color.White,
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 20.dp, top = 24.dp, bottom = 16.dp)
+        )
+
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item {
+                    ProfileHeaderCard(
+                        name = userName,
+                        subtitle = "fatima.fariyal \u00B7 9876543210",
+                        isKycVerified = true
+                    )
+                }
+                item {
+                    ProfileStatsRow(stats = stats)
+                }
+                items(menuItems) { menuItem ->
+                    ProfileMenuItemRow(item = menuItem)
+                }
+                item { Spacer(modifier = Modifier.height(12.dp)) }
+            }
+        }
+    }
+
+    @Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    ZarPayTheme {
+        ProfileScreen()
+    }
+}
