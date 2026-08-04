@@ -22,7 +22,7 @@ fun TransactionRow(name: String, time: String, amount: Double, status: String, r
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
-                modifier = Modifier.size(38.dp).background(colors.accent.copy(alpha = 0.2f), CircleShape),
+                modifier = Modifier.size(38.dp).background(colors.textPrimary.copy(alpha = 0.2f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(name.take(2).uppercase(), color = colors.accent, fontSize = 12.sp, fontWeight = FontWeight.Bold)

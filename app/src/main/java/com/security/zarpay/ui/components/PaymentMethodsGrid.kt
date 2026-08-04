@@ -13,16 +13,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.security.zarpay.ui.theme.LocalZarPayColors
 
 @Composable
 fun PaymentMethodsGrid(
     modifier: Modifier = Modifier
 ) {
+
+    val colors = LocalZarPayColors.current
     val methods = listOf(
-        PaymentMethod(Icons.Default.QrCodeScanner, "Scan QR", "Camera open", Color(0xFF6C63FF).copy(0.15f)),
-        PaymentMethod(Icons.Default.Call, "By mobile", "Any number", Color(0xFF00D9A3).copy(0.15f)),
-        PaymentMethod(Icons.Default.AlternateEmail, "UPI ID", "Enter @id", Color(0xFFFFA726).copy(0.15f)),
-        PaymentMethod(Icons.Default.AccountBalance, "Bank a/c", "IFSC + acc", Color(0xFFFF5C5C).copy(0.15f))
+        PaymentMethod(Icons.Default.QrCodeScanner, "Scan QR", "Camera open", colors.actionScan),
+        PaymentMethod(Icons.Default.Call, "By mobile", "Any number", colors.actionSend),
+        PaymentMethod(Icons.Default.AlternateEmail, "UPI ID", "Enter @id",colors.actionRequest),
+        PaymentMethod(Icons.Default.AccountBalance, "Bank a/c", "IFSC + acc", colors.actionSplit)
     )
 
     Column(

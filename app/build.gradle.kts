@@ -2,10 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.security.zarpay"
+  namespace = "com.security.zarpay"
     compileSdk {
         version = release(36)
     }
@@ -42,9 +43,15 @@ android {
 
 }
 
-dependencies {
+    dependencies {
+        implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+        implementation("com.google.firebase:firebase-database-ktx")
+        implementation("com.google.firebase:firebase-auth-ktx")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation(libs.androidx.core.ktx)
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
     implementation(libs.androidx.lifecycle.runtime.ktx)
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)

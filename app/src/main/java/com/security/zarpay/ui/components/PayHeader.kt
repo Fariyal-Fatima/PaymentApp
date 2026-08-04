@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.security.zarpay.ui.theme.LocalZarPayColors
 import com.security.zarpay.ui.theme.ZarPayColors
 import java.nio.file.WatchEvent
 
@@ -32,6 +33,7 @@ import java.nio.file.WatchEvent
 fun PayHeader(onBack:() -> Unit,
               modifier: Modifier = Modifier
 ){
+    val colors = LocalZarPayColors.current
     Row( verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier) {
             IconButton(onClick = {onBack()},
@@ -39,12 +41,12 @@ fun PayHeader(onBack:() -> Unit,
                Icon( modifier = modifier.size(20.dp),
                    imageVector = Icons.Default.ArrowBack,
                    contentDescription = "Back",
-                   tint = Color.White)
+                   tint = colors.textPrimary)
             }
         Spacer(modifier.width(20.dp))
         Text(
            text = "Send Money",
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 20.sp,
 
 

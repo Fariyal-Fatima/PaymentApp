@@ -25,7 +25,7 @@ fun TopBar(initials: String, name: String, greeting: String = "Hi") {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
-                modifier = Modifier.size(44.dp).background(colors.accent.copy(alpha = 0.2f), CircleShape),
+                modifier = Modifier.size(44.dp).background(colors.avatarBg.copy(alpha = 0.2f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(initials, color = colors.accent, fontWeight = FontWeight.Bold)

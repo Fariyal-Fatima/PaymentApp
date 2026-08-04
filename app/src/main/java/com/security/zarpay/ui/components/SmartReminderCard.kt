@@ -30,10 +30,10 @@ fun SmartReminderCard( message:String , subtitle: String) {
     {
         Row (){
             (Icon(
-                Icons.Default.NotificationsActive, contentDescription = "Notifications", tint = Color.White, modifier = Modifier.size(18.dp)
+                Icons.Default.NotificationsActive, contentDescription = "Notifications", tint = colors.textPrimary, modifier = Modifier.size(18.dp)
             ))
             Spacer(Modifier.width(10.dp))
-            Text(message, color = Color.White)
+            Text(message, color = colors.textPrimary)
 
         }
     }
