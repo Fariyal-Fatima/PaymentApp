@@ -12,15 +12,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.security.zarpay.model.ProfileStat
+import com.security.zarpay.ui.theme.LocalZarPayColors
 
-private val CardBg = Color(0xFF141827)
-private val SubTextColor = Color(0xFF9BA1B0)
+
 
 @Composable
 fun ProfileStatsRow(
     stats: List<ProfileStat>,
     modifier: Modifier = Modifier
 ) {
+    val colors = LocalZarPayColors.current
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -38,13 +39,13 @@ fun ProfileStatsRow(
                 ) {
                     Text(
                         text = stat.value,
-                        color = Color.White,
+                        color = colors.textPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 22.sp
                     )
                     Text(
                         text = stat.label,
-                        color = SubTextColor,
+                        color = colors.textSecondary,
                         fontSize = 12.sp
                     )
                 }

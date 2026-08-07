@@ -44,6 +44,7 @@ android {
 }
 
     dependencies {
+        implementation("org.mindrot:jbcrypt:0.4")
         implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
         implementation("com.google.firebase:firebase-database-ktx")
         implementation("com.google.firebase:firebase-auth-ktx")
@@ -69,5 +70,6 @@ android {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
 
 }

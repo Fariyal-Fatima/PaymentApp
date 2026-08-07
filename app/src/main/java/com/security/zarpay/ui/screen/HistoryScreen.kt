@@ -86,7 +86,7 @@ fun HistoryScreen(
                 isCredit = false,
                 status = TransactionStatus.SUCCESS,
                 utr = "4821093",
-                avatarColor = Color(0xFF4A3F8C)
+                avatarColor = Color(0xFF6C63FF)
             ),
             Transaction(
                 id = "2",
@@ -96,7 +96,7 @@ fun HistoryScreen(
                 isCredit = true,
                 status = TransactionStatus.SUCCESS,
                 utr = "3910284",
-                avatarColor = Color(0xFF1E5C4A)
+                avatarColor = Color(0xFF00D9A3)
             ),
             Transaction(
                 id = "3",
@@ -105,7 +105,7 @@ fun HistoryScreen(
                 amount = 1240,
                 isCredit = false,
                 status = TransactionStatus.PROCESSING,
-                avatarColor = Color(0xFF3A2E1A),
+                avatarColor = Color(0xFFFF5C5C),
                 icon = "bolt"
             ),
             Transaction(
@@ -116,12 +116,11 @@ fun HistoryScreen(
                 isCredit = false,
                 status = TransactionStatus.FAILED,
                 statusNote = "Failed — Bank timeout",
-                avatarColor = Color(0xFF5C2A2A)
+                avatarColor = Color(0xFFFFA726)
             )
         )
     }
 
-    // Filter logic: match the chip to transaction status/type
     val filteredTransactions = when (selectedFilter) {
         "Sent" -> allTransactions.filter { !it.isCredit }
         "Received" -> allTransactions.filter { it.isCredit }
@@ -137,7 +136,7 @@ fun HistoryScreen(
     ) {
         Text(
             text = "History",
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 20.dp, top = 24.dp, bottom = 8.dp)
@@ -165,7 +164,7 @@ fun HistoryScreen(
                 item {
                     Text(
                         text = "THIS MONTH",
-                        color = Color(0xFF9BA1B0),
+                        color = colors.textPrimary,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier.padding(top = 8.dp)

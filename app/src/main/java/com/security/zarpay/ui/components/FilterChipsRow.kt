@@ -41,7 +41,11 @@ fun FilterChipRow(
             FilterChip(
                 label = filter,
                 isSelected = filter == selectedFilter,
-                onClick = { onFilterSelected(filter) }
+                onClick = { onFilterSelected(filter) },
+
+            selectedColor = selectedColor,
+            unselectedColor = unselectedColor,
+            unselectedTextColor = unselectedTextColor
             )
         }
     }
@@ -51,7 +55,10 @@ fun FilterChipRow(
 private fun FilterChip(
     label: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    selectedColor: Color,
+    unselectedColor: Color,
+    unselectedTextColor: Color,
 ) {
     Surface(
         onClick = onClick,

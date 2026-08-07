@@ -51,7 +51,7 @@ fun SignupScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Create account 🚀",
+            text = "Create account ",
             color = colors.textPrimary,
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold

@@ -16,12 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.security.zarpay.model.ProfileMenuItem
-
-private val SubTextColor = Color(0xFF9BA1B0)
-private val DividerColor = Color(0xFF1E2338)
+import com.security.zarpay.ui.theme.LocalZarPayColors
 
 @Composable
 fun ProfileMenuItemRow(item: ProfileMenuItem) {
+    val colors = LocalZarPayColors.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +46,7 @@ fun ProfileMenuItemRow(item: ProfileMenuItem) {
 
         Text(
             text = item.label,
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 15.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier.weight(1f)
@@ -71,7 +70,7 @@ fun ProfileMenuItemRow(item: ProfileMenuItem) {
         Icon(
             imageVector = Icons.Filled.ChevronRight,
             contentDescription = null,
-            tint = SubTextColor,
+            tint = colors.textSecondary,
             modifier = Modifier.size(20.dp)
         )
     }

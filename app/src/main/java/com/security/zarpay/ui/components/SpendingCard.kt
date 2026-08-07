@@ -15,10 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.security.zarpay.model.SpendingCategory
+import com.security.zarpay.ui.theme.LocalZarPayColors
+import com.security.zarpay.ui.theme.ZarPayColors
 
-private val CardBg = Color(0xFF141827)
-private val TrackColor = Color(0xFF2A2F45)
-private val LabelColor = Color(0xFF9BA1B0)
 
 @Composable
 fun SpendingCard(
@@ -26,8 +25,10 @@ fun SpendingCard(
     categories: List<SpendingCategory>,
     modifier: Modifier = Modifier
 ) {
+    val colors = LocalZarPayColors.current
+    val trackColor = colors.cardBg
+    val labelColor = colors.textSecondary
     val maxAmount = categories.maxOf { it.amount }.toFloat()
-
     Surface(
         modifier = modifier.fillMaxWidth().glassShine(7),
         color =Color.Transparent
@@ -38,7 +39,7 @@ fun SpendingCard(
         ) {
             Text(
                 text = title,
-                color = LabelColor,
+                color = labelColor,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -46,22 +47,25 @@ fun SpendingCard(
             categories.forEach { category ->
                 SpendingRow(
                     category = category,
-                    progress = category.amount / maxAmount
+                    progress = category.amount / maxAmount,
+                    trackColor = trackColor,
+                    colors = colors
                 )
+
             }
         }
     }
 }
 
 @Composable
-private fun SpendingRow(category: SpendingCategory, progress: Float) {
+private fun SpendingRow(category: SpendingCategory, progress: Float,trackColor: Color, colors: ZarPayColors) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
             text = category.label,
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 14.sp,
             modifier = Modifier.width(70.dp)
         )
@@ -73,7 +77,7 @@ private fun SpendingRow(category: SpendingCategory, progress: Float) {
         ) {
             // background track
             drawRoundRect(
-                color = TrackColor,
+                color = trackColor,
                 size = size,
                 cornerRadius = CornerRadius(size.height / 2)
             )
@@ -87,7 +91,7 @@ private fun SpendingRow(category: SpendingCategory, progress: Float) {
 
         Text(
             text = "\u20B9${category.amount}",
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.width(70.dp)

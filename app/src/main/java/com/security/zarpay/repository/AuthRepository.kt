@@ -2,7 +2,7 @@ package com.security.zarpay.repository
 import com.security.zarpay.ui.model.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-
+import org.mindrot.jbcrypt.BCrypt
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository {
@@ -35,12 +35,16 @@ class AuthRepository {
                 lastFour = (1111..9999).random().toString(),
                 balance = 50000.0
             )
+            database.child("users")
+                .child(userId)
+                .setValue(newUser)
+                .await()
 
-            // Save user data
-            database.child("users").child(userId).setValue(newUser).await()
 
-            // Save MPIN separately (hashed in real apps, plain for hackathon speed)
-            database.child("mpins").child(userId).setValue(mpin).await()
+// Hash MPIN before storing (bcrypt with auto-generated salt)
+            val hashedMpin = BCrypt.hashpw(mpin, BCrypt.gensalt())
+            database.child("mpins").child(userId).setValue(hashedMpin).await()
+
 
             Result.success(userId)
         } catch (e: Exception) {
@@ -63,8 +67,9 @@ class AuthRepository {
     suspend fun verifyMpin(userId: String, enteredMpin: String): Result<Boolean> {
         return try {
             val snapshot = database.child("mpins").child(userId).get().await()
-            val savedMpin = snapshot.getValue(String::class.java) ?: ""
-            Result.success(savedMpin == enteredMpin)
+            val savedHashedMpin = snapshot.getValue(String::class.java) ?: ""
+            val isValid = BCrypt.checkpw(enteredMpin, savedHashedMpin)
+            Result.success(isValid)
         } catch (e: Exception) {
             Result.failure(e)
         }

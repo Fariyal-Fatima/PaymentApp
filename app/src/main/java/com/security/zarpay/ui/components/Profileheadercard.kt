@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.security.zarpay.ui.theme.LocalZarPayColors
 
 private val CardBg = Color(0xFF141827)
 private val SubTextColor = Color(0xFF9BA1B0)
@@ -32,6 +33,7 @@ fun ProfileHeaderCard(
         modifier = modifier.fillMaxWidth().glassShine(20),
         color = Color.Transparent
     ) {
+        val colors = LocalZarPayColors.current
         Row(
             modifier = Modifier.fillMaxWidth().glassShine(20)
                 .padding(20.dp),
@@ -47,7 +49,7 @@ fun ProfileHeaderCard(
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize().glassShine(20)) {
                     Text(
                         text = name.split(" ").mapNotNull { it.firstOrNull() }.take(2).joinToString(""),
-                        color = Color.White,
+                        color = colors.textPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -57,7 +59,7 @@ fun ProfileHeaderCard(
             Column {
                 Text(
                     text = name,
-                    color = Color.White,
+                    color = colors.textPrimary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )

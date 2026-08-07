@@ -69,7 +69,7 @@ fun ProfileScreen(
         listOf(
             ProfileMenuItem(
                 icon = Icons.Filled.AccountBalance,
-                iconBgColor = Color(0xFF1A2E22),
+                iconBgColor = Color(0xFF3DDC97).copy(alpha = 0.15f),
                 iconTint = Color(0xFF3DDC97),
                 label = "Linked bank accounts",
                 badge = "1 active",
@@ -77,7 +77,7 @@ fun ProfileScreen(
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.Shield,
-                iconBgColor = Color(0xFF1E1A33),
+                iconBgColor = Color(0xFF7C6CF0).copy(alpha = 0.15f),
                 iconTint = Color(0xFF7C6CF0),
                 label = "Privacy & security",
                 badge = "New",
@@ -85,31 +85,31 @@ fun ProfileScreen(
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.PhoneAndroid,
-                iconBgColor = Color(0xFF33291A),
+                iconBgColor = Color(0xFFF5A623).copy(alpha = 0.15f),
                 iconTint = Color(0xFFF5A623),
                 label = "Trusted devices"
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.Translate,
-                iconBgColor = Color(0xFF3A1A2E),
+                iconBgColor = Color(0xFFE8637A).copy(alpha = 0.15f),
                 iconTint = Color(0xFFE8637A),
                 label = "Language — Hindi, English"
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.Palette,
-                iconBgColor = Color(0xFF1A2E22),
+                iconBgColor = Color(0xFF3DDC97).copy(alpha = 0.15f),
                 iconTint = Color(0xFF3DDC97),
                 label = "Mode — Dark, Light"
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.Description,
-                iconBgColor = Color(0xFF1E1A33),
+                iconBgColor = Color(0xFF7C6CF0).copy(alpha = 0.15f),
                 iconTint = Color(0xFF7C6CF0),
                 label = "Download all statements"
             ),
             ProfileMenuItem(
                 icon = Icons.Filled.SupportAgent,
-                iconBgColor = Color(0xFF33291A),
+                iconBgColor = Color(0xFFF5A623).copy(alpha = 0.15f),
                 iconTint = Color(0xFFF5A623),
                 label = "Support — 24/7 Live chat"
             )
@@ -124,7 +124,7 @@ fun ProfileScreen(
     ) {
         Text(
             text = "Profile",
-            color = Color.White,
+            color = colors.textPrimary,
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 20.dp, top = 24.dp, bottom = 16.dp)
@@ -186,9 +186,7 @@ fun ProfileScreen(
                 items(menuItems) { menuItem ->
                     ProfileMenuItemRow(item = menuItem)
                 }
-                items(menuItems) { menuItem ->
-                    ProfileMenuItemRow(item = menuItem)
-                }
+
                 item {
                     Button(
                         onClick = { onLogout() },

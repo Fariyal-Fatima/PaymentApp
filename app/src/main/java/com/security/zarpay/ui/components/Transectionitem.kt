@@ -1,5 +1,6 @@
 package com.security.zarpay.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -13,12 +14,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.security.zarpay.model.Transaction
 import com.security.zarpay.model.TransactionStatus
+import com.security.zarpay.ui.theme.LocalZarPayColors
 
 private val SuccessGreen = Color(0xFF3DDC97)
 private val FailedRed = Color(0xFFE8637A)
@@ -37,40 +40,40 @@ fun TransactionItem(transaction: Transaction) {
         horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         // Avatar circle
-        Surface(
-            shape = CircleShape,
-            color = transaction.avatarColor,
-            modifier = Modifier.size(44.dp)
+        val colors = LocalZarPayColors.current
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(transaction.avatarColor.copy(alpha = 0.25f)),
+            contentAlignment = Alignment.Center
         ) {
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                if (transaction.icon == "bolt") {
-                    Icon(
-                        imageVector = Icons.Filled.Bolt,
-                        contentDescription = null,
-                        tint = Color(0xFFFFA726)
-                    )
-                } else {
-                    Text(
-                        text = transaction.name.take(2).uppercase(),
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
-                    )
-                }
+            if (transaction.icon == "bolt") {
+                Icon(
+                    imageVector = Icons.Filled.Bolt,
+                    contentDescription = null,
+                    tint = transaction.avatarColor
+                )
+            } else {
+                Text(
+                    text = transaction.name.take(2).uppercase(),
+                    color = transaction.avatarColor,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
             }
         }
-
         // Name, date, status
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = transaction.name,
-                color = Color.White,
+                color = colors.textPrimary,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )
             Text(
                 text = transaction.date,
-                color = SubTextColor,
+                color = colors.textPrimary,
                 fontSize = 12.sp
             )
             StatusRow(transaction)
