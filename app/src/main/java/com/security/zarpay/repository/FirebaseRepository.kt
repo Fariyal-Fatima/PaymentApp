@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
-
+import com.google.firebase.database.ServerValue
 class FirebaseRepository {
 
     private val database = FirebaseDatabase.getInstance("https://zarpay-91a2e-default-rtdb.asia-southeast1.firebasedatabase.app").reference
@@ -51,62 +51,61 @@ class FirebaseRepository {
     }
 
     // Send money — atomic-ish balance update + transaction record
+    class InsufficientBalanceException : Exception("Insufficient balance")
+
+    // class ke andar
     suspend fun sendMoney(
         senderId: String,
         receiverId: String,
         receiverName: String,
-        amount: Double
+        amount: Long          // paise
     ): Result<Unit> {
         return try {
-            val senderSnapshot = database.child("users").child(senderId).get().await()
-            val senderBalance = senderSnapshot.child("balance").getValue(Double::class.java) ?: 0.0
+            require(amount > 0) { "Invalid amount" }
+            require(senderId != receiverId) { "You cannot send money to yourself" }
 
-            if (senderBalance < amount) {
-                return Result.failure(Exception("Insufficient balance"))
+            val senderSnapshot = database.child("users").child(senderId).get().await()
+            val receiverSnapshot = database.child("users").child(receiverId).get().await()
+
+            if (!receiverSnapshot.exists()) {
+                return Result.failure(Exception("Receiver not found"))
             }
 
-            val receiverSnapshot = database.child("users").child(receiverId).get().await()
-            val receiverBalance = receiverSnapshot.child("balance").getValue(Double::class.java) ?: 0.0
+            val senderBalance = senderSnapshot.child("balance").getValue(Long::class.java) ?: 0L
+            if (senderBalance < amount) {
+                return Result.failure(InsufficientBalanceException())
+            }
 
-            // Update balances
-            database.child("users").child(senderId).child("balance").setValue(senderBalance - amount).await()
-            database.child("users").child(receiverId).child("balance").setValue(receiverBalance + amount).await()
-
+            val senderName = senderSnapshot.child("name").getValue(String::class.java) ?: ""
             val transactionId = UUID.randomUUID().toString()
             val refId = "UTR${(100000..999999).random()}"
-            val timestamp = System.currentTimeMillis()
 
-            // Record for sender (debit)
-            val senderTxn = FirebaseTransaction(
-                transactionId = transactionId,
-                senderId = senderId,
-                receiverId = receiverId,
-                name = receiverName,
-                amount = -amount,
-                timestamp = timestamp,
-                status = "Success",
-                refId = refId
+            // Map use kiya kyunki ServerValue.TIMESTAMP model ke Long field mein nahi jaa sakta
+            fun txnMap(name: String, signedAmount: Long) = mapOf(
+                "transactionId" to transactionId,
+                "senderId" to senderId,
+                "receiverId" to receiverId,
+                "name" to name,
+                "amount" to signedAmount,
+                "timestamp" to ServerValue.TIMESTAMP,
+                "status" to "Success",
+                "refId" to refId
             )
-            database.child("transactions").child(senderId).child(transactionId).setValue(senderTxn).await()
 
-            // Record for receiver (credit)
-            val receiverName2 = senderSnapshot.child("name").getValue(String::class.java) ?: ""
-            val receiverTxn = FirebaseTransaction(
-                transactionId = transactionId,
-                senderId = senderId,
-                receiverId = receiverId,
-                name = receiverName2,
-                amount = amount,
-                timestamp = timestamp,
-                status = "Success",
-                refId = refId
+            // Saare paths ek saath: ya sab likhe jaate hain, ya kuch bhi nahi
+            val updates = hashMapOf<String, Any>(
+                "users/$senderId/balance" to ServerValue.increment(-amount),
+                "users/$receiverId/balance" to ServerValue.increment(amount),
+                "transactions/$senderId/$transactionId" to txnMap(receiverName, -amount),
+                "transactions/$receiverId/$transactionId" to txnMap(senderName, amount)
             )
-            database.child("transactions").child(receiverId).child(transactionId).setValue(receiverTxn).await()
 
+            database.updateChildren(updates).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
-}
+    }
+
 

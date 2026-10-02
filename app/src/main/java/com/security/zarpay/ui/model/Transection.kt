@@ -9,7 +9,7 @@ data class Transaction(
     val id: String,
     val name: String,
     val date: String,
-    val amount: Int,
+    val amount: Long,
     val isCredit: Boolean,
     val status: TransactionStatus,
     val utr: String? = null,
@@ -20,6 +20,6 @@ data class Transaction(
 
 data class SpendingCategory(
     val label: String,
-    val amount: Int,
+    val amount: Long,
     val color: Color
 )

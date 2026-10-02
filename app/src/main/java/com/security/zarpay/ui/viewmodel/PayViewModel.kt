@@ -24,7 +24,7 @@ class PayViewModel : ViewModel() {
     private val _paymentState = MutableStateFlow<PaymentState>(PaymentState.Idle)
     val paymentState: StateFlow<PaymentState> = _paymentState
 
-    fun sendPayment(receiverName: String, receiverId: String, amount: Double, enteredMpin: String) {
+    fun sendPayment(receiverName: String, receiverId: String, amount: Long, enteredMpin: String) {
         val senderId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         _paymentState.value = PaymentState.Loading

@@ -33,7 +33,7 @@ class AuthRepository {
                 phone = "",
                 bankName = "SBI",
                 lastFour = (1111..9999).random().toString(),
-                balance = 50000.0
+                balance = 5_000_000L
             )
             database.child("users")
                 .child(userId)

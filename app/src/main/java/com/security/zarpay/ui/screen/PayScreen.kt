@@ -152,7 +152,7 @@ fun PayScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        val amountValue = amount.toDoubleOrNull()
+                        val amountValue = amount.toLongOrNull()
                         if (amountValue != null && amountValue > 0 && mpin.length == 4) {
                             payViewModel.sendPayment(
                                 receiverName = selectedContact!!.name,

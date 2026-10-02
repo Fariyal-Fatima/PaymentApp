@@ -32,9 +32,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.security.zarpay.util.formatRupees
 
-
-data class HistoryItem(val name: String, val time: String, val amount: Double, val status: String, val refId: String)
+data class HistoryItem(val name: String, val time: String, val amount: Long, val status: String, val refId: String)
 
 @Composable
 fun HomeScreen(
@@ -61,7 +61,7 @@ fun HomeScreen(
         ) {
         item { TopBar(initials = uiState.user?.initials ?: "", name = uiState.user?.name ?: "") }
         item { BalanceCard(
-            balance = "₹${uiState.user?.balance ?: 0.0}",
+            balance = formatRupees(uiState.user?.balance ?: 0L),
             bankName = uiState.user?.bankName ?: "",
             lastFour = uiState.user?.lastFour ?: ""
         ) }

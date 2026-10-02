@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import com.security.zarpay.ui.theme.LocalZarPayColors
 
 @Composable
-fun TransactionRow(name: String, time: String, amount: Double, status: String, refId: String) {
+fun TransactionRow(name: String, time: String, amount: Long, status: String, refId: String) {
     val colors = LocalZarPayColors.current
     Row(
         modifier = Modifier.fillMaxWidth(),

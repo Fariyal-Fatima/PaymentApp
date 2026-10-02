@@ -10,7 +10,7 @@ data class FirebaseUser(
     val phone: String = "",
     val bankName: String = "",
     val lastFour: String = "",
-    val balance: Double = 0.0
+    val balance: Long = 0L
 )
 
 data class FirebaseTransaction(
@@ -18,7 +18,7 @@ data class FirebaseTransaction(
     val senderId: String = "",
     val receiverId: String = "",
     val name: String = "",
-    val amount: Double = 0.0,
+    val amount: Long = 0L,
     val timestamp: Long = 0L,
     val status: String = "Success",
     val refId: String = ""
